@@ -1,5 +1,7 @@
 #include "BPGraphToolLibrary.h"
 
+#include "BaseWidgetBlueprint.h"
+#include "Components/Widget.h"
 #include "EdGraph/EdGraph.h"
 #include "EdGraph/EdGraphNode.h"
 #include "EdGraphUtilities.h"
@@ -282,4 +284,92 @@ FString UBPGraphToolLibrary::CompileAndReport(UBlueprint* Blueprint)
 		Report += TEXT("\n  ") + Message->ToText().ToString();
 	}
 	return Report;
+}
+
+TArray<FString> UBPGraphToolLibrary::ListWidgets(UBlueprint* WidgetBlueprint)
+{
+	TArray<FString> Names;
+	UBaseWidgetBlueprint* WidgetBP = Cast<UBaseWidgetBlueprint>(WidgetBlueprint);
+	if (!WidgetBP)
+	{
+		return Names;
+	}
+
+	for (UWidget* Widget : WidgetBP->GetAllSourceWidgets())
+	{
+		if (Widget)
+		{
+			Names.Add(FString::Printf(TEXT("%s | %s | degisken=%s"),
+				*Widget->GetName(),
+				*Widget->GetClass()->GetName(),
+				Widget->bIsVariable ? TEXT("evet") : TEXT("hayir")));
+		}
+	}
+	return Names;
+}
+
+bool UBPGraphToolLibrary::SetWidgetIsVariable(UBlueprint* WidgetBlueprint, const FString& WidgetName, bool bIsVariable)
+{
+	UBaseWidgetBlueprint* WidgetBP = Cast<UBaseWidgetBlueprint>(WidgetBlueprint);
+	if (!WidgetBP)
+	{
+		return false;
+	}
+
+	for (UWidget* Widget : WidgetBP->GetAllSourceWidgets())
+	{
+		if (Widget && Widget->GetName().Equals(WidgetName, ESearchCase::IgnoreCase))
+		{
+			Widget->Modify();
+			Widget->bIsVariable = bIsVariable;
+			FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(WidgetBlueprint);
+			return true;
+		}
+	}
+	return false;
+}
+
+bool UBPGraphToolLibrary::SetVariableReplicated(UBlueprint* Blueprint, FName VariableName, bool bReplicated)
+{
+	if (!Blueprint)
+	{
+		return false;
+	}
+
+	for (FBPVariableDescription& Variable : Blueprint->NewVariables)
+	{
+		if (Variable.VarName == VariableName)
+		{
+			Blueprint->Modify();
+			if (bReplicated)
+			{
+				Variable.PropertyFlags |= CPF_Net;
+			}
+			else
+			{
+				Variable.PropertyFlags &= ~CPF_Net;
+			}
+			FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(Blueprint);
+			return true;
+		}
+	}
+	return false;
+}
+
+TArray<FString> UBPGraphToolLibrary::ListVariables(UBlueprint* Blueprint)
+{
+	TArray<FString> Out;
+	if (!Blueprint)
+	{
+		return Out;
+	}
+
+	for (const FBPVariableDescription& Variable : Blueprint->NewVariables)
+	{
+		Out.Add(FString::Printf(TEXT("%s | %s | replike=%s"),
+			*Variable.VarName.ToString(),
+			*Variable.VarType.PinCategory.ToString(),
+			(Variable.PropertyFlags & CPF_Net) ? TEXT("evet") : TEXT("hayir")));
+	}
+	return Out;
 }

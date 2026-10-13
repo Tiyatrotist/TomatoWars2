@@ -86,4 +86,23 @@ public:
 	/** Blueprint'i derler ve "OK" ya da hata/uyari dokumunu dondurur. */
 	UFUNCTION(BlueprintCallable, Category = "BPGraphTool")
 	static FString CompileAndReport(UBlueprint* Blueprint);
+
+	/** Widget Blueprint'in tasarim agacindaki widget'lari "ad | tip | degisken mi" olarak listeler. */
+	UFUNCTION(BlueprintCallable, Category = "BPGraphTool")
+	static TArray<FString> ListWidgets(UBlueprint* WidgetBlueprint);
+
+	/**
+	 * Bir widget'i Blueprint degiskeni olarak isaretler/kaldirir (Designer'daki
+	 * "Is Variable" kutusu). Isaretlenmeyen widget'a graph'tan erisilemez.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "BPGraphTool")
+	static bool SetWidgetIsVariable(UBlueprint* WidgetBlueprint, const FString& WidgetName, bool bIsVariable);
+
+	/** Uye degiskenin replikasyonunu acar/kapatir (CPF_Net). */
+	UFUNCTION(BlueprintCallable, Category = "BPGraphTool")
+	static bool SetVariableReplicated(UBlueprint* Blueprint, FName VariableName, bool bReplicated);
+
+	/** Uye degiskenlerin adlarini ve replike olup olmadiklarini listeler. */
+	UFUNCTION(BlueprintCallable, Category = "BPGraphTool")
+	static TArray<FString> ListVariables(UBlueprint* Blueprint);
 };

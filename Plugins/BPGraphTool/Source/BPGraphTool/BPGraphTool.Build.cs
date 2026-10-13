@@ -19,7 +19,8 @@ public class BPGraphTool : ModuleRules
 		{
 			"UnrealEd",
 			"BlueprintGraph",
-			"KismetCompiler"
+			"KismetCompiler",
+			"UMG"
 		});
 	}
 }
