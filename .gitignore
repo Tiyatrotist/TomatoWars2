@@ -1,0 +1,22 @@
+# Unreal Engine
+Binaries/
+Build/
+DerivedDataCache/
+Intermediate/
+Saved/
+.vs/
+*.sln
+*.suo
+*.VC.db
+*.opensdf
+*.sdf
+*.xcodeproj
+*.xcworkspace
+# Plugin build output
+Plugins/*/Binaries/
+Plugins/*/Intermediate/
+# Yerel yedek/kurulum klasorleri
+_backup_pre_mcp/
+# Ortama ozel
+.claude/settings.local.json
+*.log
