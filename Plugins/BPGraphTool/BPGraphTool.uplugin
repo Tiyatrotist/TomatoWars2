@@ -1,0 +1,21 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "BP Graph Tool",
+	"Description": "Editor-only gelistirme araci: Blueprint graph'lara programatik node import/export, graph temizleme, arabirim ekleme ve derleme raporu. Oyun kodunu etkilemez, pakete dahil edilmez.",
+	"Category": "Editor",
+	"CreatedBy": "TomatoWars2",
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"EnabledByDefault": true,
+	"Modules": [
+		{
+			"Name": "BPGraphTool",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}

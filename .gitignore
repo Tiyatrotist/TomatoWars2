@@ -20,3 +20,7 @@ _backup_pre_mcp/
 # Ortama ozel
 .claude/settings.local.json
 *.log
+
+# Gecici yapistirma dosyalari
+_Yapistir/
+*.uproject.bak
